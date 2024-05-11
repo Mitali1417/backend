@@ -14,22 +14,13 @@ app.use(express.json());
 
 // MongoDB connection
 mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .catch((err) => console.error("Initial MongoDB connection error:", err));
-mongoose.connection.on("error", (err) => {
-  console.error("MongoDB connection error:", err); // Log any connection errors
-});
-
-mongoose.connection.once("open", () => {
-  console.log("MongoDB connected successfully");
-});
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 app.use(
   cors({
-    origin: ["https://purely.onrender.com"],
+    origin: "https://purely.onrender.com",
     methods: ["POST", "GET"],
     credentials: true,
   })
@@ -39,7 +30,6 @@ app.get("/", (req, res) => {
   res.json("Hello");
 });
 
-// Routes
 app.use("/api/queries", require("./routes/userQueryRoutes"));
 
 // Serve React App for all other routes not handled by above
