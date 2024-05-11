@@ -4,5 +4,6 @@ const { submitQuery } = require('../controllers/userQueryController');
 
 router.post('/submit', submitQuery);
 
+
 module.exports = router;
 
