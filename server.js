@@ -24,7 +24,7 @@ mongoose
 const cors = require("cors");
 app.use(
   cors({
-    origin: ["https://purelysample.onrender.com"],
+    origin: ["https://purely.onrender.com"],
     methods: ["POST", "GET"],
     credentials: true,
   })
