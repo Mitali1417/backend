@@ -18,8 +18,14 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB connection error: ", err));
+  .catch((err) => console.error("Initial MongoDB connection error:", err));
+mongoose.connection.on("error", (err) => {
+  console.error("MongoDB connection error:", err); // Log any connection errors
+});
+
+mongoose.connection.once("open", () => {
+  console.log("MongoDB connected successfully");
+});
 
 app.use(
   cors({
@@ -35,7 +41,6 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/api/queries", require("./routes/userQueryRoutes"));
-
 
 // Serve React App for all other routes not handled by above
 app.use(express.static(path.join(__dirname, "dist")));
